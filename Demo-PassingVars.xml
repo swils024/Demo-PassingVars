@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2.2 (Build 865)" ts="2018-12-14 22:54:23">
+<Project name="Demo-PassingVars" LastModified="2018-12-14 22:52:04.339754">
+  <Items>
+    <ProjectItem name="PassingVars" type="PKG"></ProjectItem>
+    <ProjectItem name="EXISTINGCODE.INT" type="MAC"></ProjectItem>
+    <ProjectItem name="INTERVARS.INT" type="MAC"></ProjectItem>
+  </Items>
+</Project>
+
+
+<Routine name="EXISTINGCODE" type="INT" languagemode="0" timestamp="64996,75450.395029"><![CDATA[
+EXISTINGCODE
+ Write !,"Call this routine using Do EVARS^EXISTINGCODE"
+ Quit
+EVARS 
+ Set eVAR1=1
+ Set eVAR2=2
+ Set eVAR3=3
+ Set eVAR4=4
+ Quit
+]]></Routine>
+
+
+<Routine name="INTERVARS" type="INT" languagemode="0" timestamp="64996,78268.63343"><![CDATA[
+INTERVARS(iVAR1,iVAR2,iVAR3,iVAR4)
+ D EVARS^EXISTINGCODE
+ Set iVAR1=$GET(eVAR1)
+ Set iVAR2=$GET(eVAR2)
+ Set iVAR3=$GET(eVAR3)
+ Set iVAR4=$GET(eVAR4)
+ Quit
+
+]]></Routine>
+
+
+<Class name="PassingVars.Demo1">
+<Super>%RegisteredObject</Super>
+<TimeChanged>64996,78341.013386</TimeChanged>
+<TimeCreated>64996,73661.980726</TimeCreated>
+
+<Method name="Run">
+<ClassMethod>1</ClassMethod>
+<ReturnType>%Status</ReturnType>
+<Implementation><![CDATA[
+		// Case 1 : Only interested in these two variables
+		Do ^INTERVARS(.cVAR1,.cVAR2)
+		Set ^LOG(cVAR1,cVAR2)=$zdatetime($h,4,1)
+		
+		Kill cVAR1,cVAR2
+		
+		// Case 2 : Show all defined variables
+		Do ^INTERVARS(.cVAR1,.cVAR2,.cVAR3,.cVAR4)
+		Set ^LOG(cVAR1,cVAR2,cVAR3,cVAR4)=$zdatetime($h,4,1)
+		Quit $$$OK
+]]></Implementation>
+</Method>
+</Class>
+
+
+</Export>
