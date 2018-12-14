@@ -1,0 +1,10 @@
+ROUTINE EXISTINGCODE [TYPE=INT]
+EXISTINGCODE
+ Write !,"Call this routine using Do EVARS^EXISTINGCODE"
+ Quit
+EVARS 
+ Set eVAR1=1
+ Set eVAR2=2
+ Set eVAR3=3
+ Set eVAR4=4
+ Quit
