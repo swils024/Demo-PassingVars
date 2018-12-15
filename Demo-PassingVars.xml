@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2.2 (Build 865)" ts="2018-12-14 22:54:23">
-<Project name="Demo-PassingVars" LastModified="2018-12-14 22:52:04.339754">
+<Export generator="Cache" version="25" zv="Cache for Windows (x86-64) 2017.2.2 (Build 865)" ts="2018-12-15 13:05:28">
+<Project name="Demo-PassingVars" LastModified="2018-12-15 13:05:17.76865">
   <Items>
-    <ProjectItem name="PassingVars" type="PKG"></ProjectItem>
     <ProjectItem name="EXISTINGCODE.INT" type="MAC"></ProjectItem>
-    <ProjectItem name="INTERVARS.INT" type="MAC"></ProjectItem>
+    <ProjectItem name="PassingVars" type="PKG"></ProjectItem>
+    <ProjectItem name="INTERVARS1.INT" type="MAC"></ProjectItem>
+    <ProjectItem name="INTERVARS2.INT" type="MAC"></ProjectItem>
   </Items>
 </Project>
 
 
-<Routine name="EXISTINGCODE" type="INT" languagemode="0" timestamp="64996,75450.395029"><![CDATA[
+<Routine name="EXISTINGCODE" type="INT" languagemode="0" timestamp="64997,46617.311985"><![CDATA[
 EXISTINGCODE
  Write !,"Call this routine using Do EVARS^EXISTINGCODE"
  Quit
@@ -18,12 +19,16 @@ EVARS
  Set eVAR2=2
  Set eVAR3=3
  Set eVAR4=4
+ Set eVAR5=5
+ Set eVAR6=6
+ Set eVAR7=7
+ Set eVAR8=8
  Quit
 ]]></Routine>
 
 
-<Routine name="INTERVARS" type="INT" languagemode="0" timestamp="64996,78268.63343"><![CDATA[
-INTERVARS(iVAR1,iVAR2,iVAR3,iVAR4)
+<Routine name="INTERVARS1" type="INT" languagemode="0" timestamp="64997,45975.142651"><![CDATA[
+INTERVARS1(iVAR1,iVAR2,iVAR3,iVAR4)
  D EVARS^EXISTINGCODE
  Set iVAR1=$GET(eVAR1)
  Set iVAR2=$GET(eVAR2)
@@ -34,9 +39,19 @@ INTERVARS(iVAR1,iVAR2,iVAR3,iVAR4)
 ]]></Routine>
 
 
+<Routine name="INTERVARS2" type="INT" languagemode="0" timestamp="64997,46829.517212"><![CDATA[
+INTERVARS2(arrayVars)
+ Set arrayVars("eVAR5")=$GET(eVAR5)
+ Set arrayVars("eVAR6")=$GET(eVAR6)
+ Set arrayVars("eVAR7")=$GET(eVAR7)
+ Set arrayVars("eVAR8")=$GET(eVAR8)
+ Quit
+]]></Routine>
+
+
 <Class name="PassingVars.Demo1">
 <Super>%RegisteredObject</Super>
-<TimeChanged>64996,78341.013386</TimeChanged>
+<TimeChanged>64997,46854.815314</TimeChanged>
 <TimeCreated>64996,73661.980726</TimeCreated>
 
 <Method name="Run">
@@ -44,14 +59,19 @@ INTERVARS(iVAR1,iVAR2,iVAR3,iVAR4)
 <ReturnType>%Status</ReturnType>
 <Implementation><![CDATA[
 		// Case 1 : Only interested in these two variables
-		Do ^INTERVARS(.cVAR1,.cVAR2)
+		Do ^INTERVARS1(.cVAR1,.cVAR2)
 		Set ^LOG(cVAR1,cVAR2)=$zdatetime($h,4,1)
 		
 		Kill cVAR1,cVAR2
 		
-		// Case 2 : Show all defined variables
-		Do ^INTERVARS(.cVAR1,.cVAR2,.cVAR3,.cVAR4)
+		// Case 2 : Only interested in these four variables
+		Do ^INTERVARS1(.cVAR1,.cVAR2,.cVAR3,.cVAR4)
 		Set ^LOG(cVAR1,cVAR2,cVAR3,cVAR4)=$zdatetime($h,4,1)
+		
+		// Case 3 : Passing a single array to contain all the variables
+		Do ^INTERVARS2(.arr)
+		Set ^LOG(arr("eVAR5"),arr("eVAR6"),arr("eVAR7"),arr("eVAR8"))=$zdatetime($h,4,1)
+		
 		Quit $$$OK
 ]]></Implementation>
 </Method>
