@@ -1,0 +1,7 @@
+ROUTINE INTERVARS2 [TYPE=INT]
+INTERVARS2(arrayVars)
+ Set arrayVars("eVAR5")=$GET(eVAR5)
+ Set arrayVars("eVAR6")=$GET(eVAR6)
+ Set arrayVars("eVAR7")=$GET(eVAR7)
+ Set arrayVars("eVAR8")=$GET(eVAR8)
+ Quit
